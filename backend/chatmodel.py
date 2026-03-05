@@ -2,7 +2,7 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
-model_name = "microsoft/DialoGPT-small"          # or your fine-tuned path
+model_name = "distilgpt2"           # or your fine-tuned path
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
@@ -19,17 +19,14 @@ def generate_response(user_input, chat_history_ids=None):
         bot_input_ids = torch.cat([chat_history_ids, new_input_ids], dim=-1)
     else:
         bot_input_ids = new_input_ids
-
     output_ids = model.generate(
         bot_input_ids,
-        max_length=1000,
+        max_new_tokens=60,        # generate max 60 new tokens → much faster
         pad_token_id=tokenizer.eos_token_id,
-        # recommended settings for DialoGPT
         do_sample=True,
-        top_k=50,
-        top_p=0.95,
-        temperature=0.75,
-        no_repeat_ngram_size=3,   # helps prevent repetition
+        top_p=0.92,
+        top_k=40,
+        temperature=0.8,
     )
 
     # Extract only the newly generated part
