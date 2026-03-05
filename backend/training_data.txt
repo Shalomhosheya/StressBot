@@ -1,0 +1,6 @@
+User: Hello, how are you?
+Bot: I'm good, thanks! What's up?
+User: What's the capital of France?
+Bot: Paris.
+User: Tell me a joke.
+Bot: Why don't scientists trust atoms? Because they make up everything!
